@@ -19,28 +19,31 @@ public class AdminRestController {
     }
 
 
-    @GetMapping()
+    @GetMapping
     public List<User> getAll() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById (@PathVariable Long id) {
-        return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getById(id);
+        return ResponseEntity.ok().body(user);
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser (@RequestBody User user) {
-        return new ResponseEntity<>(userService.add(user), HttpStatus.CREATED);
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        User addUser = userService.add(user);
+        return ResponseEntity.ok(addUser);
     }
 
-    @PutMapping ("/{id}")
-    public ResponseEntity<User> editUser (@RequestBody User user, @PathVariable Long id) {
-        return new ResponseEntity<>(userService.update(user, id), HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<User> editUser(@RequestBody User user, @PathVariable Long id) {
+        return ResponseEntity.ok().body(userService.update(user, id));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser (@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

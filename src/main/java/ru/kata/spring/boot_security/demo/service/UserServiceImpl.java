@@ -40,6 +40,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         existingUser.setAge(user.getAge());
         existingUser.setEmail(user.getEmail());
         existingUser.setRoles(user.getRoles());
+        // Проверяем, что переданный пароль не является пустой строкой
+        if (!user.getPassword().isEmpty()) {
+            existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         return userDao.save(existingUser);
     }
 
